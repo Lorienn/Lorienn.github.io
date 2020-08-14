@@ -1,0 +1,193 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>JavaScript实现常见排序算法 | 夏心瑶的个人网站</title><meta name="description" content="本文实现的排序算法有：冒泡排序、选择排序、插入排序、希尔排序、快速排序。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586"><meta name="keywords" content="JavaScript,算法"><meta name="author" content="夏心瑶,lorienn@163.com"><meta name="copyright" content="夏心瑶"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://lorien.github.io/2020/08/14/js-sort/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="JavaScript实现常见排序算法"><meta property="og:url" content="https://lorien.github.io/2020/08/14/js-sort/"><meta property="og:site_name" content="夏心瑶的个人网站"><meta property="og:description" content="本文实现的排序算法有：冒泡排序、选择排序、插入排序、希尔排序、快速排序。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586"><meta property="og:image" content="https://lorien.github.io/img/article/js.jpg"><meta property="article:published_time" content="2020-08-14T12:22:06.000Z"><meta property="article:modified_time" content="2020-08-14T12:42:53.596Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?434a1b0b5d0d2382ef2dd8fcd3fbb0b0";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: false,
+  copyright: {"limitCount":50,"languages":{"author":"作者: 夏心瑶","link":"链接: ","source":"来源: 夏心瑶的个人网站","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false    
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: false,
+  postUpdate: '2020-08-14 20:42:53'
+}</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 5.0.0"><link rel="alternate" href="/atom.xml" title="夏心瑶的个人网站" type="application/atom+xml">
+</head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" data-lazy-src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">7</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">8</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/article/js.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">夏心瑶的个人网站</a></span><span class="pull-right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">JavaScript实现常见排序算法</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-08-14T12:22:06.000Z" title="发表于 2020-08-14 20:22:06">2020-08-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-08-14T12:42:53.596Z" title="更新于 2020-08-14 20:42:53">2020-08-14</time></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2020/08/14/js-sort/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/2020/08/14/js-sort/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p>本文实现的排序算法有：冒泡排序、选择排序、插入排序、希尔排序、快速排序。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ArrayList</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 列表的属性</span></span><br><span class="line">    <span class="built_in">this</span>.array = []</span><br><span class="line">    <span class="comment">// 列表的方法</span></span><br><span class="line">    <span class="comment">// - 插入项</span></span><br><span class="line">    ArrayList.prototype.insert = <span class="function"><span class="keyword">function</span> (<span class="params">item</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.array.push(item)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// - 将列表以字符串形式返回</span></span><br><span class="line">    ArrayList.prototype.toString = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.array.join(<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 排序算法</span></span><br><span class="line">    <span class="comment">// - 冒泡排序</span></span><br><span class="line">    ArrayList.prototype.bubbleSort = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> length = <span class="built_in">this</span>.array.length</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> j = length - <span class="number">1</span>; j &gt;= <span class="number">0</span>; j--) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; j; i++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">this</span>.array[i] &gt; <span class="built_in">this</span>.array[i + <span class="number">1</span>]) &#123;</span><br><span class="line">                    <span class="built_in">this</span>.swap(i, i + <span class="number">1</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// - 选择排序</span></span><br><span class="line">    ArrayList.prototype.selectionSort = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> length = <span class="built_in">this</span>.array.length</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; length - <span class="number">1</span>; j++) &#123;</span><br><span class="line">            <span class="keyword">var</span> min = j</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> i = min + <span class="number">1</span>; i &lt; length; i++) &#123;    <span class="comment">// 从第二个元素，即arr[1]开始与arr[min]比较</span></span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">this</span>.array[i] &lt; <span class="built_in">this</span>.array[min]) &#123;</span><br><span class="line">                    min = i</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">this</span>.swap(j, min)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// - 插入排序</span></span><br><span class="line">    ArrayList.prototype.insertionSort = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> length = <span class="built_in">this</span>.array.length</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; length; i++) &#123;</span><br><span class="line">            <span class="keyword">var</span> cur = <span class="built_in">this</span>.array[i]</span><br><span class="line">            <span class="keyword">var</span> j = i   <span class="comment">//  这里不用j = i - 1是因为其在不进行循环的情况会出错</span></span><br><span class="line">            <span class="keyword">while</span> (cur &lt; <span class="built_in">this</span>.array[j - <span class="number">1</span>] &amp;&amp; j &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="built_in">this</span>.array[j] = <span class="built_in">this</span>.array[j - <span class="number">1</span>]</span><br><span class="line">                j--</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">this</span>.array[j] = cur</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// - 希尔排序</span></span><br><span class="line">    ArrayList.prototype.shellSort = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> length = <span class="built_in">this</span>.array.length</span><br><span class="line">        <span class="keyword">var</span> gap = length / <span class="number">2</span> | <span class="number">0</span>    <span class="comment">// 初始化增量gap</span></span><br><span class="line">        <span class="keyword">while</span> (gap &gt;= <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="comment">// 以gap作为间隔，对数据进行分组，组内进行插入排序</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> i = gap; i &lt; length; i++) &#123;</span><br><span class="line">                <span class="keyword">var</span> cur = <span class="built_in">this</span>.array[i]</span><br><span class="line">                <span class="keyword">var</span> j = i</span><br><span class="line">                <span class="keyword">while</span> (cur &lt; <span class="built_in">this</span>.array[j - gap] &amp;&amp; j &gt; gap - <span class="number">1</span>) &#123;</span><br><span class="line">                    <span class="built_in">this</span>.array[j] = <span class="built_in">this</span>.array[j - gap]</span><br><span class="line">                    j -= gap</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="built_in">this</span>.array[j] = cur</span><br><span class="line">            &#125;</span><br><span class="line">            gap = gap / <span class="number">2</span> | <span class="number">0</span>   <span class="comment">// 按照N/2逐步减小增量</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// - 快速排序</span></span><br><span class="line">    ArrayList.prototype.quickSort = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.quick(<span class="number">0</span>, <span class="built_in">this</span>.array.length - <span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// - 快速排序的递归函数</span></span><br><span class="line">    ArrayList.prototype.quick = <span class="function"><span class="keyword">function</span> (<span class="params">left, right</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (left &gt;= right) <span class="keyword">return</span>  <span class="comment">// 结束条件</span></span><br><span class="line">        <span class="keyword">var</span> pivot = <span class="built_in">this</span>.median(left, right)     <span class="comment">// 获取枢纽</span></span><br><span class="line">        <span class="keyword">var</span> i = left    <span class="comment">// 左指针（默认指向首项）</span></span><br><span class="line">        <span class="keyword">var</span> j = right - <span class="number">1</span>   <span class="comment">// 右指针（默认指向倒数第二项）</span></span><br><span class="line">        <span class="keyword">while</span> (i &lt; j) &#123;     <span class="comment">// true =&gt; i &lt; j，修复了第一轮循环出现i=j的bug</span></span><br><span class="line">            <span class="keyword">while</span> (<span class="built_in">this</span>.array[++i] &lt; pivot) &#123; &#125;  <span class="comment">// 左指针向右移动，直到找到大于枢纽的元素</span></span><br><span class="line">            <span class="keyword">while</span> (<span class="built_in">this</span>.array[--j] &gt; pivot) &#123; &#125;   <span class="comment">// 右指针向左移动，直到找到小于枢纽的元素</span></span><br><span class="line">            <span class="keyword">if</span> (i &gt;= j) &#123;</span><br><span class="line">                <span class="keyword">break</span>   <span class="comment">// 左指针和右指针重合时退出循环</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="built_in">this</span>.swap(i, j)     <span class="comment">// 交换左右指针指向的元素</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">this</span>.swap(i, right - <span class="number">1</span>)     <span class="comment">// 左指针i停留的位置即枢纽在序列中正确的位置</span></span><br><span class="line">        <span class="built_in">this</span>.quick(left, i - <span class="number">1</span>)     <span class="comment">// 对枢纽左边的序列再次进行快速排序</span></span><br><span class="line">        <span class="built_in">this</span>.quick(i + <span class="number">1</span>, right)    <span class="comment">// 对枢纽右边的序列再次进行快速排序</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// - 交换元素</span></span><br><span class="line">    ArrayList.prototype.swap = <span class="function"><span class="keyword">function</span> (<span class="params">m, n</span>) </span>&#123;</span><br><span class="line">        [<span class="built_in">this</span>.array[m], <span class="built_in">this</span>.array[n]] = [<span class="built_in">this</span>.array[n], <span class="built_in">this</span>.array[m]]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// - 获取中位数并作为枢纽返回（快速排序）</span></span><br><span class="line">    ArrayList.prototype.median = <span class="function"><span class="keyword">function</span> (<span class="params">left, right</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> center = (left + right) / <span class="number">2</span> | <span class="number">0</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.array[left] &gt; <span class="built_in">this</span>.array[center]) &#123;</span><br><span class="line">            <span class="built_in">this</span>.swap(left, center)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.array[left] &gt; <span class="built_in">this</span>.array[right]) &#123;</span><br><span class="line">            <span class="built_in">this</span>.swap(left, right)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.array[center] &gt; <span class="built_in">this</span>.array[right]) &#123;</span><br><span class="line">            <span class="built_in">this</span>.swap(center, right)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">this</span>.swap(center, right - <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.array[right - <span class="number">1</span>]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 使用排序算法</span></span><br><span class="line"><span class="keyword">var</span> list = <span class="keyword">new</span> ArrayList()</span><br><span class="line">list.insert(<span class="number">97</span>)</span><br><span class="line">list.insert(<span class="number">35</span>)</span><br><span class="line">list.insert(<span class="number">12</span>)</span><br><span class="line">list.insert(<span class="number">9</span>)</span><br><span class="line">list.insert(<span class="number">20</span>)</span><br><span class="line">list.insert(<span class="number">66</span>)</span><br><span class="line">list.insert(<span class="number">77</span>)</span><br><span class="line">list.insert(<span class="number">45</span>)</span><br><span class="line">list.insert(<span class="number">2</span>)</span><br><span class="line">list.insert(<span class="number">6</span>)</span><br><span class="line">list.quickSort()</span><br><span class="line">alert(list.toString())</span><br></pre></td></tr></table></figure></div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:lorienn@163.com">夏心瑶</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://lorien.github.io/2020/08/14/js-sort/">https://lorien.github.io/2020/08/14/js-sort/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://Lorien.github.io" target="_blank">夏心瑶的个人网站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/JavaScript/">JavaScript</a><a class="post-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a></div><div class="post_share"><div class="social-share" data-image="/img/article/js.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" data-lazy-src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" data-lazy-src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/08/14/my-note/"><img class="prev-cover" data-lazy-src="/img/article/github.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">我的开发笔记</div></div></a></div><div class="next-post pull-right"><a href="/2020/08/14/my-project/"><img class="next-cover" data-lazy-src="/img/article/github.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">我的Web项目汇总</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/08/14/my-note/" title="我的开发笔记"><img class="relatedPosts_cover" data-lazy-src="/img/article/github.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2020-08-14</div><div class="relatedPosts_title">我的开发笔记</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer" style="background-image: url(/img/article/js.jpg)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 By 夏心瑶</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    window.valine = new Valine({
+      el: '#vcomment',
+      appId: 'QGm6hm255oCJHxMpL0mWEXmF-gzGzoHsz',
+      appKey: 'rEMcCexMfw4VAQtfmxreQ42p',
+      placeholder: '请在此处输入你的评论（需先填写英文昵称）',
+      avatar: 'monsterid',
+      meta: 'nick'.split(','),
+      pageSize: '10',
+      lang: 'zh_CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+    });
+    if ('nick') { valine.config.requiredFields= 'nick'.split(',') }
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: [
+    'title',
+    'meta[name=description]',
+    '#config_change',
+    '#body-wrap',
+    '#rightside-config-hide',
+    '#rightside-config-show',
+    '.js-pjax'
+  ],
+  cacheBust: false,
+})
+
+document.addEventListener('pjax:complete', function () {
+  refreshFn()
+
+  $('script[data-pjax]').each(function () {
+    $(this).parent().append($(this).remove())
+  })
+
+  GLOBAL_CONFIG.islazyload && lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  if (typeof gtag === 'function') {
+    gtag('config', '', {'page_path': window.location.pathname});
+  }
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+})
+
+document.addEventListener('pjax:send', function () {
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  $(window).off('scroll')
+
+  //reset readmode
+  $('body').hasClass('read-mode') && $('body').removeClass('read-mode')
+
+  //reset font-size
+  $('body').css('font-size') !== originFontSize && $('body').css('font-size', parseFloat(originFontSize))
+})</script></div></body></html>
