@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>夏心瑶的个人网站</title>
+  <title>Lorien</title>
   <icon>https://www.gravatar.com/avatar/b89a5bd071c8f1d053e27ac4b915015d</icon>
-  <subtitle>Lorien&#39;s Web</subtitle>
+  <subtitle>Lorien&#39;s Profile</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://lorien.github.io/"/>
@@ -10,7 +10,7 @@
   <id>https://lorien.github.io/</id>
   
   <author>
-    <name>夏心瑶</name>
+    <name>Lorien</name>
     <email>lorienn@163.com</email>
   </author>
   
@@ -97,41 +97,6 @@
   </entry>
   
   <entry>
-    <title>我的开发笔记</title>
-    <link href="https://lorien.github.io/2020/08/14/my-note/"/>
-    <id>https://lorien.github.io/2020/08/14/my-note/</id>
-    <published>2020-08-14T12:24:19.000Z</published>
-    <updated>2020-08-14T12:34:24.090Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h4><p>在项目实际开发的过程中，可能会遇到许许多多的问题，在此做一个简单的记录。</p><h2 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h2><h4 id="1-元素特性的顺序"><a href="#1-元素特性的顺序" class="headerlink" title="1.元素特性的顺序"></a>1.元素特性的顺序</h4><blockquote><p>id,class,ref    节点标识</p><p>name,src,alt,type,href,value    必须的原生特性</p><p>placeholder    可选的原生特性</p><p>v-model,v-for,key,v-if,v-show,v-bind    vue指令</p></blockquote><h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><h4 id="1-PC端页面适配"><a href="#1-PC端页面适配" class="headerlink" title="1.PC端页面适配"></a>1.PC端页面适配</h4><blockquote><p>缩放页面时，背景和主体元素总是保持居中</p><p>实际宽度小于设计宽度时，根据主体元素宽度设置页面最小宽度</p><p>实际宽度大于设计宽度时，使用与背景色相近的纯色填充空白部分</p><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">html</span>, </span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#fff</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.index</span> &#123;</span><br><span class="line">    <span class="attribute">min-width</span>: <span class="number">1200px</span>;</span><br><span class="line">    <span class="attribute">background</span>: url(~img/bg.jpg) no-repeat;</span><br><span class="line">    <span class="attribute">background-position</span>: center <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="selector-class">.content</span> &#123;</span><br><span class="line">        <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></blockquote><h4 id="3-移动端伪类-active无效的解决方式"><a href="#3-移动端伪类-active无效的解决方式" class="headerlink" title="3.移动端伪类:active无效的解决方式"></a>3.移动端伪类:active无效的解决方式</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">created () &#123;</span><br><span class="line">    <span class="built_in">document</span>.body.addEventListener(<span class="string">&#x27;touchstart&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h2><h4 id="1-获取对象的第一个属性"><a href="#1-获取对象的第一个属性" class="headerlink" title="1.获取对象的第一个属性"></a>1.获取对象的第一个属性</h4><ul><li><p>原理：JS的对象是基于哈希表实现的，理论上是无序的，但其存储结构是有序的</p></li><li><p>方法：使用<code>for...in</code>循环</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    <span class="string">&#x27;0722&#x27;</span>: &#123;...&#125;,</span><br><span class="line">    <span class="string">&#x27;0814&#x27;</span>: &#123;...&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> obj) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(obj[key])    <span class="comment">// &#x27;0722&#x27;: &#123;...&#125;</span></span><br><span class="line">    <span class="keyword">break</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li></ul><h2 id="Vue"><a href="#Vue" class="headerlink" title="Vue"></a>Vue</h2><h4 id="1-computed计算属性无法传参的解决方式"><a href="#1-computed计算属性无法传参的解决方式" class="headerlink" title="1.computed计算属性无法传参的解决方式"></a>1.computed计算属性无法传参的解决方式</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">    myOrder () &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">num</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&#x27;0&#x27;</span> + num</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="React"><a href="#React" class="headerlink" title="React"></a>React</h2><h4 id="1-setState后获取更新后的状态"><a href="#1-setState后获取更新后的状态" class="headerlink" title="1.setState后获取更新后的状态"></a>1.setState后获取更新后的状态</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">this</span>.setState(&#123;</span><br><span class="line">    isShow: <span class="literal">true</span></span><br><span class="line">&#125;, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.state.isShow)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure><h2 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h2><h4 id="1-git-commit的注释规范"><a href="#1-git-commit的注释规范" class="headerlink" title="1.git commit的注释规范"></a>1.git commit的注释规范</h4><blockquote><p>feat 新功能</p><p>fix 修补bug</p><p>docs 文档</p><p>style 格式</p><p>refactor 重构</p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h4 id=&quot;序言&quot;&gt;&lt;a href=&quot;#序言&quot; class=&quot;headerlink&quot; title=&quot;序言&quot;&gt;&lt;/a&gt;序言&lt;/h4&gt;&lt;p&gt;在项目实际开发的过程中，可能会遇到许许多多的问题，在此做一个简单的记录。&lt;/p&gt;
-&lt;h2 id=&quot;HTML&quot;&gt;&lt;a href=&quot;#HTML&quot;
-      
-    
-    </summary>
-    
-    
-    
-      <category term="JavaScript" scheme="https://Lorien.github.io/tags/JavaScript/"/>
-    
-      <category term="HTML" scheme="https://Lorien.github.io/tags/HTML/"/>
-    
-      <category term="CSS" scheme="https://Lorien.github.io/tags/CSS/"/>
-    
-      <category term="Vue" scheme="https://Lorien.github.io/tags/Vue/"/>
-    
-      <category term="React" scheme="https://Lorien.github.io/tags/React/"/>
-    
-      <category term="Git" scheme="https://Lorien.github.io/tags/Git/"/>
-    
-  </entry>
-  
-  <entry>
     <title>JavaScript实现常见排序算法</title>
     <link href="https://lorien.github.io/2020/08/14/js-sort/"/>
     <id>https://lorien.github.io/2020/08/14/js-sort/</id>
@@ -163,16 +128,16 @@
     <link href="https://lorien.github.io/2020/08/14/my-project/"/>
     <id>https://lorien.github.io/2020/08/14/my-project/</id>
     <published>2020-08-14T12:18:28.000Z</published>
-    <updated>2020-08-25T11:17:07.445Z</updated>
+    <updated>2021-03-30T11:22:23.346Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="欢聚时代"><a href="#欢聚时代" class="headerlink" title="欢聚时代"></a>欢聚时代</h2><ul><li><p>YY陪玩·年中金牌团队大赏专题页（PC）<a href="https://web.yy.com/pw_gh_cosme/index.html?actId=20200810">https://web.yy.com/pw_gh_cosme/index.html?actId=20200810</a></p></li><li><p>YY交友·豆荚明星赛专题页（PC）<a href="https://web.yy.com/bean_star/">https://web.yy.com/bean_star/</a></p></li><li><p>追玩app·王者荣耀争霸赛专题页（PC）<a href="https://web.yy.com/ge_group_red_packet/">https://web.yy.com/ge_group_red_packet/</a></p></li><li><p>追玩app·云顶之弈赛事专题页（mobile）<a href="https://web.yy.com/ge_zw_kingofchess/august.html">https://web.yy.com/ge_zw_kingofchess/august.html</a></p></li><li><p>追玩app·七月导量活动专题页（mobile）<a href="https://web.yy.com/zw_migration/">https://web.yy.com/zw_migration/</a></p></li><li><p>追玩app·后台管理系统·游戏专区（PC）</p></li><li><p>追玩app·后台管理系统·群红包发放后台（PC）</p></li></ul><h2 id="在校"><a href="#在校" class="headerlink" title="在校"></a>在校</h2><ul><li><p>MyVue - 基于Vue.js的前端项目工程 <a href="https://github.com/Lorienn/myvue">https://github.com/Lorienn/myvue</a></p></li><li><p>天气通 - 基于Vue的移动端Web应用 <a href="https://github.com/Lorienn/Weather">https://github.com/Lorienn/Weather</a></p></li><li><p>一本日记 - 基于uni-app开发的微信小程序 <a href="https://github.com/Lorienn/one-daily">https://github.com/Lorienn/one-daily</a></p></li><li><p>猫眼电影数据可视化平台 - 基于Vue的PC端Web应用 <a href="https://github.com/Lorienn/maoyan-film">https://github.com/Lorienn/maoyan-film</a></p></li><li><p>Element管理系统 - 基于Vue的电商后台管理系统 <a href="https://github.com/Lorienn/ecommerce-management-system">https://github.com/Lorienn/ecommerce-management-system</a></p></li><li><p>小米商城 - 基于HTML+CSS+JavaScript的PC端Web网站 <a href="https://github.com/Lorienn/xiaomi">https://github.com/Lorienn/xiaomi</a></p></li><li><p>漫漫记单词 - 基于HTML+CSS+JavaScript的教育类Web应用</p></li><li><p>知乎·登录 - 纯HTML+CSS3实现的Web页面 <a href="https://github.com/Lorienn/zhihu">https://github.com/Lorienn/zhihu</a></p></li><li><p>Tick Tick - 基于Vue的to-do类移动端Web应用 <a href="https://github.com/Lorienn/Tick-Tick">https://github.com/Lorienn/Tick-Tick</a></p></li></ul>]]></content>
+    <content type="html"><![CDATA[<h2 id="欢聚时代"><a href="#欢聚时代" class="headerlink" title="欢聚时代"></a>欢聚时代</h2><ul><li><p>YY陪玩·年中金牌团队大赏专题页（Web）<a href="https://web.yy.com/pw_gh_cosme/index.html?actId=20200810">https://web.yy.com/pw_gh_cosme/index.html?actId=20200810</a></p></li><li><p>YY交友·豆荚明星赛专题页（Web）<a href="https://web.yy.com/bean_star/">https://web.yy.com/bean_star/</a></p></li><li><p>追玩app·云顶之弈赛事专题页（H5）<a href="https://web.yy.com/ge_zw_kingofchess/august.html">https://web.yy.com/ge_zw_kingofchess/august.html</a></p></li><li><p>追玩app·后台管理系统·游戏专区&amp;群红包发放后台（Web）</p></li></ul><h2 id="个人"><a href="#个人" class="headerlink" title="个人"></a>个人</h2><ul><li>朋友圈 - 基于Taro + Taro UI + Redux + Typescript + Koa开发的微信小程序 <a href="https://github.com/Lorienn/wechat-moments">https://github.com/Lorienn/wechat-moments</a></li><li>MyVue - 基于Vue.js的前端项目工程 <a href="https://github.com/Lorienn/myvue">https://github.com/Lorienn/myvue</a></li><li>Element后台管理系统 - 基于Vue + Element UI开发的Web电商后台管理系统 <a href="https://github.com/Lorienn/ecommerce-management-system">https://github.com/Lorienn/ecommerce-management-system</a></li><li>天气通 - 基于Vue + Vuex + PHP开发的移动端H5应用 <a href="https://github.com/Lorienn/Weather">https://github.com/Lorienn/Weather</a></li><li>小米商城 - 基于jQuery + Gulp + PHP开发的Web网站 <a href="https://github.com/Lorienn/xiaomi">https://github.com/Lorienn/xiaomi</a></li><li>Tick Tick - 基于Vue.js的to-do类移动端H5应用 <a href="https://github.com/Lorienn/Tick-Tick">https://github.com/Lorienn/Tick-Tick</a></li><li>知乎 - 基于HTML5 + CSS3实现的Web单页面 <a href="https://github.com/Lorienn/zhihu">https://github.com/Lorienn/zhihu</a></li><li>广东外语外贸大学官方网站 - 基于HTML5 + CSS3实现的Web单页面</li></ul><h2 id="合作"><a href="#合作" class="headerlink" title="合作"></a>合作</h2><ul><li><p>Oral Guide - 基于uni-app + Express + MongoDB + WebSocket开发的英语口语辅助训练微信小程序 <a href="https://github.com/oral-guide/oral-guide">https://github.com/oral-guide/oral-guide</a></p></li><li><p>一本日记 - 基于uni-app + Vue + Echarts开发的日记类微信小程序 <a href="https://github.com/Lorienn/one-daily">https://github.com/Lorienn/one-daily</a></p></li><li><p>猫眼电影数据可视化平台 - 基于Vue + element UI + flask + altair开发的Web应用 <a href="https://github.com/Lorienn/maoyan-film">https://github.com/Lorienn/maoyan-film</a></p></li><li><p>漫漫记单词 - 基于HTML + CSS + JavaScript开发的英语单词学习Web应用</p></li></ul>]]></content>
     
     <summary type="html">
     
       
       
         &lt;h2 id=&quot;欢聚时代&quot;&gt;&lt;a href=&quot;#欢聚时代&quot; class=&quot;headerlink&quot; title=&quot;欢聚时代&quot;&gt;&lt;/a&gt;欢聚时代&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;YY陪玩·年中金牌团队大赏专题页（PC）&lt;a href=&quot;https://web.yy.com/pw_gh
+&lt;li&gt;&lt;p&gt;YY陪玩·年中金牌团队大赏专题页（Web）&lt;a href=&quot;https://web.yy.com/pw_g
       
     
     </summary>
